@@ -30,7 +30,7 @@ To get a copy of the project running on your local machine for development and t
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/expense-tracker.git
+   git clone https://github.com/decencyokobia/expense-tracker.git
    ```
 
 2. **Navigate into the project folder**:
