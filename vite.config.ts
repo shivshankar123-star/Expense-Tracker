@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'build'  // Make sure the build output directory is 'build'
-  }
+    outDir: 'dist'  // Make sure the build output directory is 'build'
+  },
+  base: '/expense-tracker/', 
 })
 // vite.config.js
 
