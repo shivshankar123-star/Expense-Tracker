@@ -1,6 +1,6 @@
 import { FaMoon } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpenseList, { Expense } from "./expensetracker/ExpenseList";
 import ExpenseFilter from "./expensetracker/ExpenseFilter";
 import styles from "./App.module.css";
@@ -10,7 +10,10 @@ import ExpenseWeather from "./expensetracker/ExpenseWeather";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [expenditure, setExpenditure] = useState<Expense[]>([]);
+  const [expenditure, setExpenditure] = useState<Expense[]>(() => {
+    const savedExpenses = localStorage.getItem("Saved Expenses");
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
 
   const toggleMode = () => {
     setDarkMode(!darkMode);
@@ -42,6 +45,10 @@ function App() {
 
     setExpenditure((prevExpendture) => [...prevExpendture, newExpense]);
   };
+
+  useEffect(() => {
+    localStorage.setItem("Saved Expenses", JSON.stringify(expenditure));
+  }, [expenditure]);
 
   return (
     <div className={darkMode ? styles.bgNight : styles.bgLight}>
