@@ -6,10 +6,12 @@ import ExpenseFilter from "./expensetracker/ExpenseFilter";
 import styles from "./App.module.css";
 import ExpenseForm from "./expensetracker/ExpenseForm";
 import { FieldValues } from "react-hook-form";
-import ExpenseWeather from "./expensetracker/ExpenseWeather";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const currentMode = localStorage.getItem("currentMode");
+    return currentMode ? JSON.parse(currentMode) : false;
+  });
   const [expenditure, setExpenditure] = useState<Expense[]>(() => {
     const savedExpenses = localStorage.getItem("Saved Expenses");
     return savedExpenses ? JSON.parse(savedExpenses) : [];
@@ -38,6 +40,7 @@ function App() {
   const mySubmit = (data: FieldValues) => {
     const newExpense = {
       id: expenditure.length + 1,
+      date: data.date,
       description: data.description,
       amount: data.amount,
       category: data.category,
@@ -49,6 +52,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("Saved Expenses", JSON.stringify(expenditure));
   }, [expenditure]);
+
+  useEffect(() => {
+    localStorage.setItem("currentMode", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   return (
     <div className={darkMode ? styles.bgNight : styles.bgLight}>
@@ -71,9 +78,7 @@ function App() {
         <ExpenseForm handleSubmission={mySubmit} />
         <ExpenseFilter onSelect={filtered} />
         <ExpenseList expenses={updatedList} onDelete={deleteExpense} />
-        <div className={styles.weatherDisplay}>
-          <ExpenseWeather />
-        </div>
+        <div className={styles.weatherDisplay}></div>
       </div>
     </div>
   );

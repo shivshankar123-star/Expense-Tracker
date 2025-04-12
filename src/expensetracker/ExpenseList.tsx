@@ -1,5 +1,6 @@
 export interface Expense {
   id: number;
+  date: string;
   description: string;
   amount: number;
   category: string;
@@ -18,6 +19,7 @@ const ExpenseList = ({ expenses, onDelete }: Prop) => {
         <table className="table table-bordered">
           <thead>
             <tr>
+              <th>Date</th>
               <th>Description</th>
               <th>Amount</th>
               <th>Category</th>
@@ -27,7 +29,9 @@ const ExpenseList = ({ expenses, onDelete }: Prop) => {
           <tbody>
             {expenses.map((expense) => (
               <tr key={expense.id}>
+                <td>{expense.date}</td>
                 <td>{expense.description}</td>
+
                 <td>£{expense.amount}</td>
                 <td>{expense.category}</td>
                 <td>
@@ -43,8 +47,13 @@ const ExpenseList = ({ expenses, onDelete }: Prop) => {
           </tbody>
           <tfoot>
             <tr key={"total"}>
-              <td>Total</td>
-              <td>
+              <td
+                colSpan={2}
+                style={{ textAlign: "center", fontWeight: "bolder" }}
+              >
+                Total
+              </td>
+              <td style={{ fontWeight: "bolder" }}>
                 £
                 {expenses
                   .reduce(
@@ -53,8 +62,7 @@ const ExpenseList = ({ expenses, onDelete }: Prop) => {
                   )
                   .toFixed(2)}
               </td>
-              <td></td>
-              <td></td>
+              <td colSpan={2}></td>
             </tr>
           </tfoot>
         </table>

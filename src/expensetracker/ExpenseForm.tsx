@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 
 interface FormData {
+  date: string;
   description: string;
   amount: number;
   category: string;
@@ -26,6 +27,20 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
   return (
     <>
       <form className="mb-5" onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-3 mt-3">
+          <label htmlFor="date" className="form-label">
+            Date
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            id="date"
+            {...register("date", { required: true })}
+          />
+          {errors.description?.type === "required" && (
+            <p className="text-danger">Date is required.</p>
+          )}
+        </div>
         <div className="mb-3 mt-3">
           <label htmlFor="description" className="form-label">
             Description
@@ -84,7 +99,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             <p className="text-danger">Category is required.</p>
           )}
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button id="submit-btn" type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
