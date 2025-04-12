@@ -8,7 +8,6 @@ An intuitive and simple Expense Tracker built with React to help you manage and 
 - **Delete**: Remove an expense from the list.
 - **Expense summary**: Displays the total amount of expenses and breaks them down by category.
 - **Responsive design**: Works on both desktop and mobile devices.
-- **Weather display**: Display weather details of Aberdeen city, because I have hard coded this for practice purposes.
 
 ## Technologies Used
 
@@ -79,7 +78,7 @@ This will create a `build` folder with all the static files needed to deploy you
 
 ## Screenshots
 
-<img src='./src/assets/Expense Tracker.webp' alt='screenshot of expense tracker app'>
+<img src='./src/assets/new-expensetracker-image.webp' alt='screenshot of expense tracker app'>
 
 ## Future Enhancements
 
