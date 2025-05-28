@@ -59,7 +59,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
           )}
         </div>
         <div className="mb-3">
-          <label htmlFor="amount" className="form-label">
+          <label htmlFor="a" className="form-label">
             Amount
           </label>
           <input
