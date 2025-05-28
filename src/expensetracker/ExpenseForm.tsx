@@ -99,7 +99,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             <p className="text-danger">Category is required.</p>
           )}
         </div>
-        <button id="submit-btn" type="submit" className="btn btn-primary bg-black text-white">
+        <button id="submit-btn" type="submit" className="btn btn-primary ">
           Submit
         </button>
       </form>
