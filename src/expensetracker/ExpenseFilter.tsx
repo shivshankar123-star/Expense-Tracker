@@ -10,7 +10,7 @@ const ExpenseFilter = ({ onSelect }: Prop) => {
         aria-label="Default select example"
         onChange={(event) => onSelect(event.target.value)}
       >
-        <option value={"All Categories"}>A Categories</option>
+        <option value={"All Categories"}>All Categories</option>
         <option value={"Entertainment"}>Entertainment</option>
         <option value={"Groceries"}>Groceries</option>
         <option value={"Healthcare / Insurance"}>Healthcare / Insurance</option>
