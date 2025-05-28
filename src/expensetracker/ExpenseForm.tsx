@@ -70,7 +70,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             {...register("amount", { required: true })}
           />
           {errors.amount?.type === "required" && (
-            <p className="text-danger"> required.</p>
+            <p className="text-danger">Amount is required.</p>
           )}
         </div>
         <div>
@@ -99,7 +99,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             <p className="text-danger">Category is required.</p>
           )}
         </div>
-        <button id="submit-btn" type="submit" className="btn btn-primary">
+        <button id="submit-btn" type="submit" className="btn btn-primary bg-black text-white">
           Submit
         </button>
       </form>
