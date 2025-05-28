@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  expense-tracker:
+    build: .
+    ports:
+      - "5173:5173"           # Map EC2 port 5173 to container port 5173
+    restart: always
+    environment:
+      NODE_ENV: production
+    # volumes:
+    #   - .:/app               # Uncomment for dev only (live reload)

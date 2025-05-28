@@ -1,21 +1,24 @@
-# Dockerfile
-FROM node:20
+# Use official Node LTS image
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package.json and package-lock.json first to leverage cache
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the entire project
+# Copy entire project
 COPY . .
 
-# Build the project
+# Build React frontend if you have it under /frontend or adjust accordingly
+# Assuming frontend build command is in package.json scripts as 'build'
 RUN npm run build
 
-# Expose port if needed (e.g., 5173 for Vite)
-EXPOSE 5173
+# Expose port your app uses (adjust if different)
+EXPOSE 3000
 
-# Run the app
-CMD ["npm", "run", "preview"]
+# Start your app (adjust if you use pm2 or node server.js etc)
+CMD ["npm", "start"]
