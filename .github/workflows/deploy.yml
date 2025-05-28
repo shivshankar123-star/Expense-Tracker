@@ -21,54 +21,17 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # These are not used in this approach because build is on EC2
   NODE_VERSION: '18.x'
   PYTHON_VERSION: '3.10'
 
 permissions:
-  contents: write
+  contents: read
   deployments: write
   id-token: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install Python dependencies (if any)
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install Node.js dependencies
-        run: |
-          if [ -f package-lock.json ]; then npm ci; else npm install; fi
-
-      - name: Run Node tests (optional)
-        run: |
-          if [ -f package.json ]; then npm test || echo "No tests found"; fi
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment:
@@ -88,22 +51,33 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > key.pem
           chmod 600 key.pem
 
-          ssh -i key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
-            echo "Connecting to EC2 and deploying..."
+          ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USER@$EC2_HOST << EOF
+            set -e
 
-            cd $EC2_PROJECT_DIR || exit 1
+            echo "Deploying Expense Tracker..."
+
+            # If project dir doesn't exist or no git, clone fresh
+            if [ ! -d "$EC2_PROJECT_DIR/.git" ]; then
+              echo "Cloning repository..."
+              rm -rf "$EC2_PROJECT_DIR"
+              git clone https://github.com/shivshankar123-star/Expense-Tracker.git "$EC2_PROJECT_DIR"
+            fi
+
+            cd "$EC2_PROJECT_DIR"
+
+            echo "Pulling latest changes..."
             git reset --hard
-            git pull origin main || exit 1
+            git clean -fd
+            git pull origin main
 
-            # Stop and remove any old container
-            docker stop expense-tracker || true
-            docker rm expense-tracker || true
+            echo "Building Docker image..."
+            docker-compose down || true
+            docker-compose build --no-cache
 
-            # Build and run new container
-            docker build -t expense-tracker .
-            docker run -d -p 80:5173 --name expense-tracker expense-tracker
+            echo "Starting containers..."
+            docker-compose up -d
 
-            echo "Deployment completed via Docker!"
+            echo "Deployment complete."
           EOF
 
       - name: Cleanup SSH key
