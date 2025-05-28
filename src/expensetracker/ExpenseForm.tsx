@@ -70,7 +70,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             {...register("amount", { required: true })}
           />
           {errors.amount?.type === "required" && (
-            <p className="text-danger">Amount is required.</p>
+            <p className="text-danger"> required.</p>
           )}
         </div>
         <div>
@@ -83,7 +83,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             id="category"
             {...register("category", { required: true })}
           >
-            <option value={""}>C a category</option>
+            <option value={""}>Choose a category</option>
             <option value="Entertainment">Entertainment</option>
             <option value="Groceries">Groceries</option>
             <option value={"Healthcare / Insurance"}>
