@@ -83,7 +83,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
             id="category"
             {...register("category", { required: true })}
           >
-            <option value={""}>Choose a category</option>
+            <option value={""}>category</option>
             <option value="Entertainment">Entertainment</option>
             <option value="Groceries">Groceries</option>
             <option value={"Healthcare / Insurance"}>
@@ -100,7 +100,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
           )}
         </div>
         <button id="submit-btn" type="submit" className="btn btn-primary ">
-          Submit 
+          Submit submit 
         </button>
       </form>
     </>
