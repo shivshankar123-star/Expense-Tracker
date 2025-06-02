@@ -12,6 +12,7 @@ function App() {
     const currentMode = localStorage.getItem("currentMode");
     return currentMode ? JSON.parse(currentMode) : false;
   });
+
   const [expenditure, setExpenditure] = useState<Expense[]>(() => {
     const savedExpenses = localStorage.getItem("Saved Expenses");
     return savedExpenses ? JSON.parse(savedExpenses) : [];
@@ -37,7 +38,7 @@ function App() {
     setSelectedCategory(category);
   };
 
-  const mySubmit = (data: FieldValues) => {
+  const mySubmit = async (data: FieldValues) => {
     const newExpense = {
       id: expenditure.length + 1,
       date: data.date,
@@ -46,7 +47,20 @@ function App() {
       category: data.category,
     };
 
-    setExpenditure((prevExpendture) => [...prevExpendture, newExpense]);
+    setExpenditure((prevExpenditure) => [...prevExpenditure, newExpense]);
+
+    // Send to backend
+    try {
+      await fetch("http://localhost:5000/submit-expense", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error("Failed to save to CSV:", error);
+    }
   };
 
   useEffect(() => {
