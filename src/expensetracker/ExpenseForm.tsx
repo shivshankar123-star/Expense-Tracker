@@ -100,7 +100,7 @@ const ExpenseForm = ({ handleSubmission }: Prop) => {
           )}
         </div>
         <button id="submit-btn" type="submit" className="btn btn-primary ">
-          Submit submit 
+          Submit 
         </button>
       </form>
     </>
