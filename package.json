@@ -4,11 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "start": "node app.js"
-},
-
-
-  "scripts": {
+    "start": "node app.js",
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
